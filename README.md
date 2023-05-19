@@ -1,24 +1,14 @@
-# README
+For build
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+````docker-compose build````
 
-Things you may want to cover:
+For run application (db creation and migrations automated)
 
-* Ruby version
+````docker-compose up````
 
-* System dependencies
+by default starting on http://localhost:3000/
 
-* Configuration
+To run tests
 
-* Database creation
+````docker-compose run -e "RAILS_ENV=test" web bundle exec rspec spec````
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
