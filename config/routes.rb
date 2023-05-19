@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
-  get "up" => "rails/health#show", as: :rails_health_check
-
-  resources :glossaries do
+  resources :glossaries, only: %i[index show create] do
     member do
       post 'term' => 'glossaries#create_term'
     end
   end
+
+  resources :translations, only: %i[create show]
 end

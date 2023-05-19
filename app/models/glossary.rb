@@ -1,6 +1,7 @@
 class Glossary < ApplicationRecord
-  validates :source_code_language, presence: true, uniqueness: true
-  validates :source_code_language, presence: true, uniqueness: true
+  include IsoLanguageCodesValidator
 
-  has_many :term
+  has_many :terms, dependent: :destroy
+
+  validates :source_language_code, uniqueness: { scope: :target_language_code }
 end

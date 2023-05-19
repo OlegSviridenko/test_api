@@ -1,4 +1,5 @@
 require_relative "boot"
+require 'csv'
 
 require "rails"
 # Pick the frameworks you want:
@@ -22,6 +23,8 @@ module TestApi
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
+
+    config.autoload_paths += Dir[Rails.root.join('app', 'services')]
 
     # Configuration for the application, engines, and railties goes here.
     #
