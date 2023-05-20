@@ -5,13 +5,13 @@ class GlossariesController < ApplicationController
   before_action :check_term_params, only: [:create_term]
 
   def index
-    render jsonapi: Glossary.all, include: [:terms], class: serializers_map, status: :ok
+    render jsonapi: Glossary.all.includes(:terms), include: [:terms], class: serializers_map, status: :ok
   end
 
   def show
-    glossaries = Glossary.find(params.require(:id))
-    if glossaries.present?
-      render jsonapi: glossaries, include: [:terms], class: serializers_map, status: :ok
+    glossary = Glossary.find(params.require(:id))
+    if glossary.present?
+      render jsonapi: glossary, include: [:terms], class: serializers_map, status: :ok
     else
       render nothing: true, status: :not_found
     end
@@ -27,12 +27,12 @@ class GlossariesController < ApplicationController
   end
 
   def create_term
-    glossary = Glossary.find(params.require(:id))
+    glossary = Glossary.find(params.require(:glossary_id))
     term = Term.new(params.permit(:source_term, :target_term).to_h.merge(glossary:))
     if term.save
       glossary.update(terms_changed_at: Time.now)
       render jsonapi: term, class: serializers_map, status: :ok
-    else
+  else
       render_bad_request
     end
   end
@@ -44,6 +44,6 @@ class GlossariesController < ApplicationController
   end
 
   def check_term_params
-    params.require(%i[id source_term target_term])
+    params.require(%i[glossary_id source_term target_term])
   end
 end

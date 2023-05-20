@@ -135,25 +135,25 @@ describe GlossariesController, type: :request do
     let(:params) { { source_term: Faker::Alphanumeric.alpha, target_term: Faker::Alphanumeric.alpha } }
 
     it 'returns error when glossary id is invalid' do
-      post term_glossary_path(id: 'Invalid'), params: params
+      post glossary_terms_path(glossary_id: 'Invalid'), params: params
 
       expect(response.status).to eq 404
     end
 
     it 'returns erorr for request without source_term' do
-      post term_glossary_path(id: glossary1.id), params: params.except(:source_term)
+      post glossary_terms_path(glossary_id: glossary1.id), params: params.except(:source_term)
 
       expect(response.status).to eq 400
     end
 
     it 'returns erorr for request without target_term' do
-      post term_glossary_path(id: glossary1.id), params: params.except(:target_term)
+      post glossary_terms_path(glossary_id: glossary1.id), params: params.except(:target_term)
 
       expect(response.status).to eq 400
     end
 
     it 'returns created term with valid params' do
-      post term_glossary_path(id: glossary1.id), params: params
+      post glossary_terms_path(glossary_id: glossary1.id), params: params
 
       expect(response.status).to eq 200
 

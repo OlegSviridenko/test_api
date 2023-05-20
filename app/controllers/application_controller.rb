@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  skip_forgery_protection
+
   rescue_from ActionController::ParameterMissing, ActiveModel::ValidationError do
     render_bad_request
   end

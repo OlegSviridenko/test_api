@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
   resources :glossaries, only: %i[index show create] do
-    member do
-      post 'term' => 'glossaries#create_term'
-    end
+    post 'terms' => 'glossaries#create_term'
   end
 
   resources :translations, only: %i[create show]

@@ -12,6 +12,8 @@ class TermsMarkingService
 
     if glossary.present? && glossary_id_is_valid? && necessary_marking?
       process_marking(mark_source_text)
+    elsif translation.new_record?
+      save_translation
     else
       true
     end
@@ -54,14 +56,18 @@ class TermsMarkingService
     text_for_marking
   end
 
-  def process_marking(text_for_marking)
-    translation.source_text != text_for_marking ? update_and_save_translation(text) : true
+  def process_marking(marked_text)
+    if translation.source_text != marked_text
+      translation.source_text = marked_text
+      translation.terms_marked_at = Time.now
+    elsif translation.new_record?
+      save_translation
+    else
+      true
+    end
   end
 
-  def update_and_save_translation(text)
-    translation.source_text = text
-    translation.terms_marked_at = Time.now
-
+  def save_translation
     if translation.save
       true
     else
